@@ -9,6 +9,9 @@ import (
 	"github.com/spf13/pflag"
 )
 
+// NoCols is a 0 column indicator
+var NoCols = []string{}
+
 // Config contains a command configuration
 type Config struct {
 	Aliases   []string
