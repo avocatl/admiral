@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"os"
+	"log"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -26,7 +26,7 @@ type Config struct {
 	ValidArgs []string
 }
 
-// Supported flags
+// Supported flags.
 const (
 	StringFlag = iota
 	IntFlag
@@ -157,8 +157,7 @@ func AddFlag(cmd *Command, config FlagConfig) {
 	if config.Required {
 		err := cmd.MarkFlagRequired(config.Name)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(2)
+			log.Fatal(err)
 		}
 	}
 }

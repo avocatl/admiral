@@ -97,12 +97,13 @@ func displayablePrinter(d Displayable, w io.Writer) {
 // DefaultDisplayer constructs a column based output
 // to the provided writer (defaults to os.Stdout).
 //
-// The output appeareance is similar to the one provided
+// The output appearance is similar to the one provided
 // by docker's cli.
 func DefaultDisplayer(output io.Writer) Displayer {
 	if output == nil {
 		output = os.Stdout
 	}
+
 	return &stdDisplayer{
 		output: output,
 	}
