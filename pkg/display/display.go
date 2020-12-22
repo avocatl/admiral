@@ -9,7 +9,7 @@ import (
 )
 
 // Displayable describes an output handler for
-// admiral
+// admiral.
 type Displayable interface {
 	KV() []map[string]interface{}
 	Cols() []string
@@ -87,7 +87,9 @@ func displayablePrinter(d Displayable, w io.Writer) {
 				formats = append(formats, "%v")
 			}
 		}
+
 		format := strings.Join(formats, "\t")
+
 		fmt.Fprintf(w, format+"\n", values...)
 	}
 }

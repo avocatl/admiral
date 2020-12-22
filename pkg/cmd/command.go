@@ -9,10 +9,10 @@ import (
 	"github.com/spf13/pflag"
 )
 
-// NoCols is a 0 column indicator
+// NoCols is a 0 column indicator.
 var NoCols = []string{}
 
-// Config contains a command configuration
+// Config contains a command configuration.
 type Config struct {
 	Aliases   []string
 	Example   string
@@ -57,6 +57,7 @@ type Command struct {
 // AddCommand adds child commands and also to cobra.
 func (c *Command) AddCommand(commands ...*Command) {
 	c.children = append(c.children, commands...)
+
 	for _, cmd := range commands {
 		c.Command.AddCommand(cmd.Command)
 	}
@@ -130,6 +131,7 @@ func AddFlag(cmd *Command, config FlagConfig) {
 			flagger = cmd.Flags()
 		}
 	}
+
 	switch config.FlagType {
 	case IntFlag:
 		val := config.Default.(int)
@@ -147,6 +149,7 @@ func AddFlag(cmd *Command, config FlagConfig) {
 		if config.Default == nil {
 			config.Default = ""
 		}
+
 		val := config.Default.(string)
 		flagger.StringP(config.Name, config.Shorthand, val, config.Usage)
 	}
