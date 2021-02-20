@@ -6,21 +6,21 @@ import (
 	"os"
 	"strings"
 
-	"github.com/avocatl/admiral/pkg/cmd"
+	"github.com/avocatl/admiral/pkg/commander"
 	"github.com/spf13/cobra"
 )
 
-var hello = cmd.Builder(
+var hello = commander.Builder(
 	nil,
-	cmd.Config{
+	commander.Config{
 		Namespace: "hello",
 		Execute:   runHelloAction,
 	},
-	cmd.NoCols,
+	commander.NoCols,
 )
 
 func init() {
-	cmd.AddFlag(hello, cmd.FlagConfig{
+	commander.AddFlag(hello, commander.FlagConfig{
 		Name:       "name",
 		Shorthand:  "n",
 		Usage:      "who are you greeting?",
@@ -28,13 +28,13 @@ func init() {
 		Persistent: true,
 	})
 
-	es := cmd.Builder(
+	es := commander.Builder(
 		hello,
-		cmd.Config{
+		commander.Config{
 			Namespace: "es",
 			Execute:   runHolaAction,
 		},
-		cmd.NoCols,
+		commander.NoCols,
 	)
 	hello.AddCommand(es)
 }
