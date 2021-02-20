@@ -23,21 +23,21 @@ import (
 	"os"
 	"strings"
 
-	"github.com/avocatl/admiral/pkg/cmd"
+	"github.com/avocatl/admiral/pkg/commander"
 	"github.com/spf13/cobra"
 )
 
-var hello = cmd.Builder(
+var hello = commander.Builder(
 	nil,
-	cmd.Config{
+	commander.Config{
 		Namespace: "hello",
 		Execute:   runHelloAction,
 	},
-	cmd.NoCols,
+	commander.NoCols,
 )
 
 func init() {
-	cmd.AddFlag(hello, cmd.FlagConfig{
+	commander.AddFlag(hello, commander.FlagConfig{
 		Name:      "name",
 		Shorthand: "n",
 		Usage:     "who are you greeting?",
@@ -53,7 +53,7 @@ func main() {
 	os.Exit(0)
 }
 
-func runHelloAction(command *cobra.Command, args []string) {
+func runHelloAction(cmd *cobra.Command, args []string) {
 	name, err := command.Flags().GetString("name")
 	{
 		name = strings.Title(name)
