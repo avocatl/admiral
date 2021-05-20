@@ -9,8 +9,19 @@ import (
 	"github.com/spf13/pflag"
 )
 
+// Cols contains the header for the column
+// based CLI displayer.
+type Cols []string
+
 // NoCols is a 0 column indicator.
-var NoCols = []string{}
+func NoCols() Cols {
+	return []string{}
+}
+
+// NewCols returns a cols type.
+func NewCols(vals ...string) Cols {
+	return vals
+}
 
 // Config contains a command configuration.
 type Config struct {
@@ -95,7 +106,7 @@ func (c *Command) GetSubCommands() []*Command {
 }
 
 // Builder constructs a new command.
-func Builder(parent *Command, config Config, cols []string) *Command {
+func Builder(parent *Command, config Config, cols Cols) *Command {
 	cc := &cobra.Command{
 		Use:                config.Namespace,
 		Short:              config.ShortDesc,

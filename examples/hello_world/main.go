@@ -16,7 +16,7 @@ var hello = commander.Builder(
 		Namespace: "hello",
 		Execute:   runHelloAction,
 	},
-	commander.NoCols,
+	commander.NoCols(),
 )
 
 func init() {
@@ -34,7 +34,7 @@ func init() {
 			Namespace: "es",
 			Execute:   runHolaAction,
 		},
-		commander.NoCols,
+		commander.NoCols(),
 	)
 	hello.AddCommand(es)
 }
