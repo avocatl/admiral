@@ -141,6 +141,95 @@ func TestAddFlag_Persistent(t *testing.T) {
 	assert.IsType(t, false, flag)
 }
 
+func TestAddFlag_BindIntFlag(t *testing.T) {
+	parent := Builder(nil, Config{Namespace: "test"}, []string{})
+
+	var fint int
+	AddFlag(parent, FlagConfig{
+		FlagType: IntFlag,
+		Name:     "bind-int",
+		Default:  10,
+		Binding: FlagBindOptions{
+			Bound:   true,
+			BindInt: &fint,
+		},
+	})
+
+	flag, err := parent.Flags().GetInt("bind-int")
+
+	assert.Nil(t, err)
+	assert.Equal(t, 10, flag)
+	assert.Equal(t, fint, flag)
+	assert.IsType(t, 10, flag)
+}
+
+func TestAddFlag_BindStringFlag(t *testing.T) {
+	parent := Builder(nil, Config{Namespace: "test"}, []string{})
+
+	var x string
+	AddFlag(parent, FlagConfig{
+		Name:    "bind-string",
+		Default: "bound to var",
+		Binding: FlagBindOptions{
+			Bound:      true,
+			BindString: &x,
+		},
+	})
+
+	flag, err := parent.Flags().GetString("bind-string")
+
+	assert.Nil(t, err)
+	assert.Equal(t, "bound to var", flag)
+	assert.Equal(t, x, flag)
+	assert.IsType(t, "x", flag)
+}
+
+func TestAddFlag_BindFloat64Flag(t *testing.T) {
+	parent := Builder(nil, Config{Namespace: "test"}, []string{})
+
+	var x float64
+	y := float64(10.1)
+	AddFlag(parent, FlagConfig{
+		FlagType: Float64Flag,
+		Name:     "bind-float",
+		Default:  y,
+		Binding: FlagBindOptions{
+			Bound:       true,
+			BindFloat64: &x,
+		},
+	})
+
+	flag, err := parent.Flags().GetFloat64("bind-float")
+
+	assert.Nil(t, err)
+	assert.Equal(t, y, flag)
+	assert.Equal(t, x, flag)
+	assert.IsType(t, y, flag)
+}
+
+func TestAddFlag_BindBoolFlag(t *testing.T) {
+	parent := Builder(nil, Config{Namespace: "test"}, []string{})
+
+	var x bool
+	y := false
+	AddFlag(parent, FlagConfig{
+		FlagType: BoolFlag,
+		Name:     "bind-bool",
+		Default:  y,
+		Binding: FlagBindOptions{
+			Bound:    true,
+			BindBool: &x,
+		},
+	})
+
+	flag, err := parent.Flags().GetBool("bind-bool")
+
+	assert.Nil(t, err)
+	assert.Equal(t, y, flag)
+	assert.Equal(t, x, flag)
+	assert.IsType(t, y, flag)
+}
+
 func TestFilterColumns(t *testing.T) {
 	cases := []struct {
 		name  string
