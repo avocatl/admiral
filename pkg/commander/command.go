@@ -131,34 +131,38 @@ func Builder(parent *Command, config Config, cols []string) *Command {
 	}
 
 	if cols := c.cols; len(cols) > 0 {
-		formatHelpText := fmt.Sprintf(
-			"select displayable fields to filter the console output, possible values are %s",
-			strings.Join(cols, ","),
-		)
-
-		AddFlag(
-			c,
-			FlagConfig{
-				Name:       "fields",
-				Persistent: true,
-				Shorthand:  "f",
-				Usage:      formatHelpText,
-			},
-		)
-
-		AddFlag(
-			c,
-			FlagConfig{
-				Name:       "no-headers",
-				FlagType:   BoolFlag,
-				Persistent: true,
-				Usage:      "Return raw data with no headers",
-				Default:    false,
-			},
-		)
+		addDisplayerFlags(c)
 	}
 
 	return c
+}
+
+func addDisplayerFlags(c *Command) {
+	formatHelpText := fmt.Sprintf(
+		"select displayable fields to filter the console output, possible values are %s",
+		strings.Join(c.cols, ","),
+	)
+
+	AddFlag(
+		c,
+		FlagConfig{
+			Name:       "fields",
+			Persistent: true,
+			Shorthand:  "f",
+			Usage:      formatHelpText,
+		},
+	)
+
+	AddFlag(
+		c,
+		FlagConfig{
+			Name:       "no-headers",
+			FlagType:   BoolFlag,
+			Persistent: true,
+			Usage:      "Return raw data with no headers",
+			Default:    false,
+		},
+	)
 }
 
 // AddFlag attaches a flag of the given type with the
@@ -210,6 +214,7 @@ func FilterColumns(req string, def []string) []string {
 
 func addIntFlag(flagger *pflag.FlagSet, config *FlagConfig) {
 	val := config.Default.(int)
+
 	if config.Binding.Bound {
 		flagger.IntVarP(config.Binding.BindInt, config.Name, config.Shorthand, val, config.Usage)
 	} else {
@@ -219,6 +224,7 @@ func addIntFlag(flagger *pflag.FlagSet, config *FlagConfig) {
 
 func addInt64Flag(flagger *pflag.FlagSet, config *FlagConfig) {
 	val := config.Default.(int64)
+
 	if config.Binding.Bound {
 		flagger.Int64VarP(config.Binding.BindInt64, config.Name, config.Shorthand, val, config.Usage)
 	} else {
@@ -228,6 +234,7 @@ func addInt64Flag(flagger *pflag.FlagSet, config *FlagConfig) {
 
 func addFloat64Flag(flagger *pflag.FlagSet, config *FlagConfig) {
 	val := config.Default.(float64)
+
 	if config.Binding.Bound {
 		flagger.Float64VarP(config.Binding.BindFloat64, config.Name, config.Shorthand, val, config.Usage)
 	} else {
@@ -237,6 +244,7 @@ func addFloat64Flag(flagger *pflag.FlagSet, config *FlagConfig) {
 
 func addBoolFlag(flagger *pflag.FlagSet, config *FlagConfig) {
 	val := config.Default.(bool)
+
 	if config.Binding.Bound {
 		flagger.BoolVarP(config.Binding.BindBool, config.Name, config.Shorthand, val, config.Usage)
 	} else {
@@ -250,6 +258,7 @@ func addStringFlag(flagger *pflag.FlagSet, config *FlagConfig) {
 	}
 
 	val := config.Default.(string)
+
 	if config.Binding.Bound {
 		flagger.StringVarP(config.Binding.BindString, config.Name, config.Shorthand, val, config.Usage)
 	} else {
