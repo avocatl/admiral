@@ -11,7 +11,6 @@ on:
       - ".github/*.yml"
       - ".github/ISSUE_TEMPLATE/*.md"
       - ".github/*.md"
-      - ".github/workflows/release.yml"
   pull_request:
      paths-ignore:
       - "**.md"
@@ -21,7 +20,6 @@ on:
       - ".github/*.yml"
       - ".github/ISSUE_TEMPLATE/*.md"
       - ".github/*.md"
-      - ".github/workflows/release.yml"
     branches: [master]
   schedule:
     - cron: "37 15 * * 0"
