@@ -33,7 +33,7 @@ var hello = commander.Builder(
 		Namespace: "hello",
 		Execute:   runHelloAction,
 	},
-	commander.NoCols,
+	commander.NoCols(),
 )
 
 func init() {
