@@ -1,7 +1,6 @@
 package prompter
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
@@ -13,17 +12,17 @@ import (
 
 const TagName = "prompter"
 
-var check = regexp.MustCompile("(^[^A-Z]*|[A-Z]*)([A-Z][^A-Z]+|$)")
-
 // String creates a simple prompter that returns the value
 // as a string.
 //
 // It accepts a label and a default value.
 func String(q string, def string) (string, error) {
 	p := new(q)
+
 	if def != "" {
 		p.Default = def
 	}
+
 	r, err := p.Run()
 	if err != nil {
 		return "", err
@@ -38,6 +37,7 @@ func String(q string, def string) (string, error) {
 // It accepts a label.
 func Int(q string) (i int, err error) {
 	p := new(q)
+
 	is, err := p.Run()
 	if err != nil {
 		return
@@ -71,6 +71,7 @@ func new(q string) *promptui.Prompt {
 func Struct(s interface{}) (sc interface{}, err error) {
 	mu := reflect.ValueOf(s).Elem()
 	tm := reflect.TypeOf(s).Elem()
+
 	for i := 0; i < mu.NumField(); i++ {
 		v := mu.Field(i)
 		f := tm.Field(i)
@@ -85,7 +86,10 @@ func Struct(s interface{}) (sc interface{}, err error) {
 			continue
 		}
 
-		checkAndSetValue(v, f)
+		err = checkAndSetValue(v, f)
+		if err != nil {
+			return
+		}
 	}
 
 	return s, err
@@ -93,10 +97,11 @@ func Struct(s interface{}) (sc interface{}, err error) {
 
 func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 	if !v.CanSet() {
-		return errors.New("you need to provide an accesible reflect value")
+		return fmt.Errorf("you need to provide an accesible reflect value")
 	}
 
 	p := createPrompt(f.Name, v.Kind())
+
 	r, err := p.Run()
 	if err != nil {
 		return err
@@ -141,6 +146,7 @@ func createPrompt(name string, k reflect.Kind) promptui.Prompt {
 }
 
 func space(s string) string {
+	var check = regexp.MustCompile("(^[^A-Z]*|[A-Z]*)([A-Z][^A-Z]+|$)")
 	var a []string
 	for _, sub := range check.FindAllStringSubmatch(s, -1) {
 		if sub[1] != "" {

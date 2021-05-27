@@ -26,7 +26,6 @@ func NewCols(vals ...string) Cols {
 // Config contains a command configuration.
 type Config struct {
 	Aliases               []string
-	Deprecated            string
 	DisableAutoGenTag     bool
 	DisableSuggentions    bool
 	SuggestMinDistance    int
@@ -120,7 +119,6 @@ func Builder(parent *Command, config Config, cols Cols) *Command {
 		ValidArgsFunction:  config.ValidArgsFunc,
 		Example:            config.Example,
 		Aliases:            config.Aliases,
-		Deprecated:         config.Deprecated,
 		DisableAutoGenTag:  config.DisableAutoGenTag,
 		DisableSuggestions: config.DisableSuggentions,
 		PersistentPreRun:   config.PersistentPreHook,

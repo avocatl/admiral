@@ -2,7 +2,7 @@ package prompter
 
 import "github.com/manifoldco/promptui"
 
-// Confirm will ask a comfirmation prompt and return an error if it
+// Confirm will ask a confirmation prompt and return an error if it
 // was not accepted or nil if it was.
 func Confirm(q string, p *promptui.Prompt) error {
 	if p == nil {
