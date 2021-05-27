@@ -147,7 +147,7 @@ func createPrompt(name string, k reflect.Kind) promptui.Prompt {
 }
 
 func space(s string) string {
-	var check = regexp.MustCompile("(^[^A-Z]*|[A-Z]*)([A-Z][^A-Z]+|$)")
+	check := regexp.MustCompile("(^[^A-Z]*|[A-Z]*)([A-Z][^A-Z]+|$)")
 
 	var a []string
 
@@ -155,6 +155,7 @@ func space(s string) string {
 		if sub[1] != "" {
 			a = append(a, sub[1])
 		}
+
 		if sub[2] != "" {
 			a = append(a, sub[2])
 		}
