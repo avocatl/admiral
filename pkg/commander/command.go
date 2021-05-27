@@ -25,29 +25,30 @@ func NewCols(vals ...string) Cols {
 
 // Config contains a command configuration.
 type Config struct {
-	Aliases               []string
 	DisableAutoGenTag     bool
 	DisableSuggentions    bool
-	SuggestMinDistance    int
-	Example               string
-	Execute               func(cmd *cobra.Command, args []string)
-	ExecuteErr            func(cmd *cobra.Command, args []string) error
 	Hidden                bool
+	SuggestMinDistance    int
 	LongDesc              string
+	Deprecated            string
+	Example               string
 	Namespace             string
-	PersistentPostHook    func(cmd *cobra.Command, args []string)
-	PersistentPreHook     func(cmd *cobra.Command, args []string)
-	PersistentPostHookErr func(cmd *cobra.Command, args []string) error
-	PersistentPreHookErr  func(cmd *cobra.Command, args []string) error
-	PostHook              func(cmd *cobra.Command, args []string)
-	PreHook               func(cmd *cobra.Command, args []string)
-	PostHookErr           func(cmd *cobra.Command, args []string) error
-	PreHookErr            func(cmd *cobra.Command, args []string) error
 	ShortDesc             string
+	Version               string
+	Aliases               []string
 	SuggestFor            []string
 	ValidArgs             []string
+	Execute               func(cmd *cobra.Command, args []string)
+	PersistentPostHook    func(cmd *cobra.Command, args []string)
+	PersistentPreHook     func(cmd *cobra.Command, args []string)
+	PostHook              func(cmd *cobra.Command, args []string)
+	PreHook               func(cmd *cobra.Command, args []string)
+	ExecuteErr            func(cmd *cobra.Command, args []string) error
+	PersistentPostHookErr func(cmd *cobra.Command, args []string) error
+	PersistentPreHookErr  func(cmd *cobra.Command, args []string) error
+	PostHookErr           func(cmd *cobra.Command, args []string) error
+	PreHookErr            func(cmd *cobra.Command, args []string) error
 	ValidArgsFunc         func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective)
-	Version               string
 }
 
 // Supported flags.
