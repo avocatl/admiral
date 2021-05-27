@@ -117,15 +117,16 @@ func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 		if e != nil {
 			return e
 		}
+
 		v.SetInt(ri)
 	case reflect.Bool:
 		ri, e := strconv.ParseBool(r)
 		if e != nil {
 			return e
 		}
+
 		v.SetBool(ri)
 	default:
-
 		v.SetString(r)
 	}
 
@@ -136,18 +137,20 @@ func createPrompt(name string, k reflect.Kind) promptui.Prompt {
 	p := promptui.Prompt{
 		Label: fmt.Sprintf("Define a value for %s", space(name)),
 	}
+
 	if k == reflect.Bool {
 		p.Label = space(name)
 		p.IsConfirm = true
 	}
 
 	return p
-
 }
 
 func space(s string) string {
 	var check = regexp.MustCompile("(^[^A-Z]*|[A-Z]*)([A-Z][^A-Z]+|$)")
+
 	var a []string
+
 	for _, sub := range check.FindAllStringSubmatch(s, -1) {
 		if sub[1] != "" {
 			a = append(a, sub[1])
@@ -156,5 +159,6 @@ func space(s string) string {
 			a = append(a, sub[2])
 		}
 	}
+
 	return strings.ToLower(strings.Join(a, " "))
 }
