@@ -1,6 +1,7 @@
 package prompter
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
@@ -95,9 +96,11 @@ func Struct(s interface{}) (sc interface{}, err error) {
 	return s, err
 }
 
+var errUnsetable = errors.New("the provided reflect value is not mutable")
+
 func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 	if !v.CanSet() {
-		return fmt.Errorf("you need to provide an accesible reflect value")
+		return fmt.Errorf("immutable value error: %w", errUnsetable)
 	}
 
 	p := createPrompt(f.Name, v.Kind())
