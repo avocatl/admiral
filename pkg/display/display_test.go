@@ -35,7 +35,7 @@ func TestDisplay_DefaultDisplayer_NoError(t *testing.T) {
 	m.EXPECT().NoHeaders().Return(false)
 
 	dsp := DefaultDisplayer(nil)
-	got := dsp.Display(m)
+	got := dsp.Display(m, []string{})
 
 	assert.Nil(t, got)
 }
@@ -59,7 +59,7 @@ MXN       24.450000
 	b := bytes.NewBufferString("")
 
 	dsp := DefaultDisplayer(b)
-	_ = dsp.Display(m)
+	_ = dsp.Display(m, []string{})
 
 	out, err := ioutil.ReadAll(b)
 	if err != nil {
@@ -67,6 +67,46 @@ MXN       24.450000
 	}
 
 	assert.Equal(t, want, string(out))
+}
+
+func TestDisplay_Displayable_ColMap(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	m := NewMockDisplayable(ctrl)
+
+	m.EXPECT().ColMap().MaxTimes(1).Return(currencyColMap)
+
+	assert.Contains(t, m.ColMap(), "Quote")
+}
+
+func TestDisplay_DefaultDisplayer_Filtered(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	m := NewMockDisplayable(ctrl)
+
+	m.EXPECT().KV().Return(currencies)
+	m.EXPECT().Cols().AnyTimes().Return(currencyCol)
+	m.EXPECT().NoHeaders().Return(false)
+
+	want := `Symbol
+EUR
+USD
+MXN
+`
+	b := bytes.NewBufferString("")
+
+	dsp := DefaultDisplayer(b)
+	_ = dsp.Display(m, []string{"Symbol"})
+
+	out, err := ioutil.ReadAll(b)
+	if err != nil {
+		t.Error(err)
+	}
+
+	assert.Equal(t, want, string(out))
+
 }
 
 func TestDisplay_DefaultDisplayer_NoHeaders(t *testing.T) {
@@ -84,7 +124,7 @@ func TestDisplay_DefaultDisplayer_NoHeaders(t *testing.T) {
 	b := bytes.NewBufferString("")
 
 	dsp := DefaultDisplayer(b)
-	_ = dsp.Display(m)
+	_ = dsp.Display(m, []string{})
 
 	out, err := ioutil.ReadAll(b)
 	if err != nil {
@@ -92,4 +132,33 @@ func TestDisplay_DefaultDisplayer_NoHeaders(t *testing.T) {
 	}
 
 	assert.Equal(t, want, string(out))
+}
+
+func TestFilterColumns(t *testing.T) {
+	cases := []struct {
+		name  string
+		given string
+		def   []string
+		want  []string
+	}{
+		{
+			"filterable columns passed in lower",
+			"id,name",
+			[]string{"id", "name", "address", "surname"},
+			[]string{"id", "name"},
+		},
+		{
+			"no columns passed returns default",
+			"",
+			[]string{"id", "name", "address", "surname"},
+			[]string{"id", "name", "address", "surname"},
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			got := FilterColumns(c.given, c.def)
+			assert.Equal(t, got, c.want)
+		})
+	}
 }
