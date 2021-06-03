@@ -89,6 +89,7 @@ func TestDisplay_DefaultDisplayer_Filtered(t *testing.T) {
 	m.EXPECT().KV().Return(currencies)
 	m.EXPECT().Cols().AnyTimes().Return(currencyCol)
 	m.EXPECT().NoHeaders().Return(false)
+	m.EXPECT().Filterable().Return(true)
 
 	want := `Symbol
 EUR

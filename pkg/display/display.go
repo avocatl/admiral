@@ -15,6 +15,7 @@ type Displayable interface {
 	Cols() []string
 	ColMap() map[string]string
 	NoHeaders() bool
+	Filterable() bool
 }
 
 // Displayer executes a display action based on
@@ -65,7 +66,7 @@ func displayablePrinter(d Displayable, w io.Writer, f []string) {
 	var cols []string
 	{
 		cols = d.Cols()
-		if len(f) > 0 {
+		if len(f) > 0 && d.Filterable() {
 			cols = f
 		}
 	}

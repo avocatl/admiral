@@ -61,6 +61,20 @@ func (mr *MockDisplayableMockRecorder) Cols() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cols", reflect.TypeOf((*MockDisplayable)(nil).Cols))
 }
 
+// Filterable mocks base method.
+func (m *MockDisplayable) Filterable() bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Filterable")
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Filterable indicates an expected call of Filterable.
+func (mr *MockDisplayableMockRecorder) Filterable() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Filterable", reflect.TypeOf((*MockDisplayable)(nil).Filterable))
+}
+
 // KV mocks base method.
 func (m *MockDisplayable) KV() []map[string]interface{} {
 	m.ctrl.T.Helper()
