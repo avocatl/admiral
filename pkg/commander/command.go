@@ -25,30 +25,30 @@ func NewCols(vals ...string) Cols {
 
 // Config contains a command configuration.
 type Config struct {
-	Aliases               []string
-	Deprecated            string
 	DisableAutoGenTag     bool
 	DisableSuggentions    bool
-	SuggestMinDistance    int
-	Example               string
-	Execute               func(cmd *cobra.Command, args []string)
-	ExecuteErr            func(cmd *cobra.Command, args []string) error
 	Hidden                bool
+	SuggestMinDistance    int
 	LongDesc              string
+	Deprecated            string
+	Example               string
 	Namespace             string
-	PersistentPostHook    func(cmd *cobra.Command, args []string)
-	PersistentPreHook     func(cmd *cobra.Command, args []string)
-	PersistentPostHookErr func(cmd *cobra.Command, args []string) error
-	PersistentPreHookErr  func(cmd *cobra.Command, args []string) error
-	PostHook              func(cmd *cobra.Command, args []string)
-	PreHook               func(cmd *cobra.Command, args []string)
-	PostHookErr           func(cmd *cobra.Command, args []string) error
-	PreHookErr            func(cmd *cobra.Command, args []string) error
 	ShortDesc             string
+	Version               string
+	Aliases               []string
 	SuggestFor            []string
 	ValidArgs             []string
+	Execute               func(cmd *cobra.Command, args []string)
+	PersistentPostHook    func(cmd *cobra.Command, args []string)
+	PersistentPreHook     func(cmd *cobra.Command, args []string)
+	PostHook              func(cmd *cobra.Command, args []string)
+	PreHook               func(cmd *cobra.Command, args []string)
+	ExecuteErr            func(cmd *cobra.Command, args []string) error
+	PersistentPostHookErr func(cmd *cobra.Command, args []string) error
+	PersistentPreHookErr  func(cmd *cobra.Command, args []string) error
+	PostHookErr           func(cmd *cobra.Command, args []string) error
+	PreHookErr            func(cmd *cobra.Command, args []string) error
 	ValidArgsFunc         func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective)
-	Version               string
 }
 
 // Supported flags.
@@ -120,7 +120,6 @@ func Builder(parent *Command, config Config, cols Cols) *Command {
 		ValidArgsFunction:  config.ValidArgsFunc,
 		Example:            config.Example,
 		Aliases:            config.Aliases,
-		Deprecated:         config.Deprecated,
 		DisableAutoGenTag:  config.DisableAutoGenTag,
 		DisableSuggestions: config.DisableSuggentions,
 		PersistentPreRun:   config.PersistentPreHook,
@@ -207,20 +206,6 @@ func AddFlag(cmd *Command, config FlagConfig) {
 			log.Fatal(err)
 		}
 	}
-}
-
-// FilterColumns will check if the filterable flag is used
-// and return only the requested set of columns.
-//
-// It takes the string parsed from the filterable flag as
-// first argument and the default set of columns (default)
-// as second parameter.
-func FilterColumns(req string, def []string) []string {
-	if req != "" {
-		return strings.Split(req, ",")
-	}
-
-	return def
 }
 
 func addIntFlag(flagger *pflag.FlagSet, config *FlagConfig) {

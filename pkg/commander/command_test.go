@@ -230,35 +230,6 @@ func TestAddFlag_BindBoolFlag(t *testing.T) {
 	assert.IsType(t, y, flag)
 }
 
-func TestFilterColumns(t *testing.T) {
-	cases := []struct {
-		name  string
-		given string
-		def   []string
-		want  []string
-	}{
-		{
-			"filterable columns passed in lower",
-			"id,name",
-			[]string{"id", "name", "address", "surname"},
-			[]string{"id", "name"},
-		},
-		{
-			"no columns passed returns default",
-			"",
-			[]string{"id", "name", "address", "surname"},
-			[]string{"id", "name", "address", "surname"},
-		},
-	}
-
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
-			got := FilterColumns(c.given, c.def)
-			assert.Equal(t, got, c.want)
-		})
-	}
-}
-
 func TestBuilder_ColsAndHeadersFlagAddition(t *testing.T) {
 	cases := []struct {
 		name  string
