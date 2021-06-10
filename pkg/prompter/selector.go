@@ -37,6 +37,7 @@ func SelectRemoteOptions(q string, req *http.Request) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	var opts []string
 	{
