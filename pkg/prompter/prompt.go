@@ -144,6 +144,7 @@ func createPrompt(name string, k reflect.Kind, def string) promptui.Prompt {
 	p := promptui.Prompt{
 		Label:       fmt.Sprintf("Define a value for %s", space(name)),
 		HideEntered: false,
+		Default:     def,
 	}
 
 	if k == reflect.Bool {
