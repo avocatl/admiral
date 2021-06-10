@@ -103,15 +103,19 @@ func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 		return fmt.Errorf("immutable value error: %w", errUnsetable)
 	}
 
-	p := createPrompt(f.Name, v.Kind())
+	p := createPrompt(f.Name, v.Kind(), v.String())
 
 	r, err := p.Run()
 	if err != nil {
-		return err
+		if !p.IsConfirm {
+			return err
+		}
 	}
 
 	if r == "y" && err == nil {
 		r = "true"
+	} else if r == "n" {
+		r = "false"
 	}
 
 	switch v.Kind() {
@@ -136,9 +140,10 @@ func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 	return nil
 }
 
-func createPrompt(name string, k reflect.Kind) promptui.Prompt {
+func createPrompt(name string, k reflect.Kind, def string) promptui.Prompt {
 	p := promptui.Prompt{
-		Label: fmt.Sprintf("Define a value for %s", space(name)),
+		Label:       fmt.Sprintf("Define a value for %s", space(name)),
+		HideEntered: false,
 	}
 
 	if k == reflect.Bool {
