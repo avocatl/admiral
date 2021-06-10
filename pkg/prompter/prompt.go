@@ -105,17 +105,9 @@ func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 
 	p := createPrompt(f.Name, v.Kind(), v.String())
 
-	r, err := p.Run()
+	r, err := runCheckAndNormalizePrompt(&p)
 	if err != nil {
-		if !p.IsConfirm {
-			return err
-		}
-	}
-
-	if r == "y" && err == nil {
-		r = "true"
-	} else if r == "n" {
-		r = "false"
+		return err
 	}
 
 	switch v.Kind() {
@@ -171,4 +163,21 @@ func space(s string) string {
 	}
 
 	return strings.ToLower(strings.Join(a, " "))
+}
+
+func runCheckAndNormalizePrompt(p *promptui.Prompt) (string, error) {
+	r, err := p.Run()
+	if err != nil {
+		if !p.IsConfirm {
+			return "", err
+		}
+	}
+
+	if r == "y" && err == nil {
+		r = "true"
+	} else if r == "n" {
+		r = "false"
+	}
+
+	return r, err
 }
