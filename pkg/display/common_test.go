@@ -15,7 +15,7 @@ func TestDisplay_JsonDisplayable_Raw(t *testing.T) {
 		Text: "Hello from admiral!",
 	}
 
-	dps := Json(tst, false)
+	dps := JSON(tst, false)
 
 	assert.False(t, dps.Filterable())
 	assert.True(t, dps.NoHeaders())
@@ -33,7 +33,7 @@ func TestDisplay_JsonDisplayable_Pretty(t *testing.T) {
 		Text: "Hello from admiral!",
 	}
 
-	dps := Json(tst, true)
+	dps := JSON(tst, true)
 
 	assert.False(t, dps.Filterable())
 	assert.True(t, dps.NoHeaders())
@@ -51,7 +51,7 @@ func TestDisplay_JsonDisplayable_JsonError(t *testing.T) {
 		"foo": make(chan int),
 	}
 
-	dps := Json(x, true)
+	dps := JSON(x, true)
 
 	assert.False(t, dps.Filterable())
 	assert.True(t, dps.NoHeaders())
