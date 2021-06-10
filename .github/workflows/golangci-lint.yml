@@ -17,28 +17,28 @@ jobs:
       - uses: golangci/golangci-lint-action@v2
         name: format inspection
         with:
-          args: --out-format=github-actions --new=true --sort-results --skip-dirs-use-default --tests=false --presets=format
+          args: --new=true --sort-results --skip-dirs-use-default --tests=false --presets=format
       - uses: golangci/golangci-lint-action@v2
         name: bugs inspection
         with:
-          args: --out-format=github-actions --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=bugs,complexity,format,performance,style,unused
+          args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=bugs,complexity,format,performance,style,unused
       - uses: golangci/golangci-lint-action@v2
         name: complexity inspection
         with:
-          args: --out-format=github-actions --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=complexity,format,performance,style,unused
+          args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=complexity,format,performance,style,unused
       - uses: golangci/golangci-lint-action@v2
         name: performance inspection
         with:
-          args: --out-format=github-actions --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=performance
+          args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=performance
       - uses: golangci/golangci-lint-action@v2
         name: style inspection
         with:
-          args: --out-format=github-actions --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=style
+          args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=style
       - uses: golangci/golangci-lint-action@v2
         name: unused inspection
         with:
-          args: --out-format=github-actions --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=unused
+          args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=unused
       - uses: golangci/golangci-lint-action@v2
         name: comments inspection
         with:
-          args: --out-format=github-actions --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=comment
+          args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=comment
