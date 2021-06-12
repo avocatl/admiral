@@ -25,11 +25,11 @@ test: run
 .PHONY: test
 
 test-local:
-	@go test -v ./mollie/... -coverprofile cover.out
+	@go test -v ./pkg/... -coverprofile cover.out
 .PHONY: test-local
 
 coverage:
-	@go test ./mollie/... -coverprofile cover.out
+	@go test ./pkg/... -coverprofile cover.out
 	@go tool cover -func=cover.out
 .PHONY:  coverage
 
