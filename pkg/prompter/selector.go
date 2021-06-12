@@ -12,7 +12,7 @@ import (
 // displayed by default on a select prompter.
 const OptionsThreshold = 15
 
-// SelectString prompts a select screen for the given options
+// Select prompts a select screen for the given options
 // and using the speficied label.
 //
 // It returns an interface and an error (if exists).
@@ -37,6 +37,7 @@ func SelectRemoteOptions(q string, req *http.Request) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	var opts []string
 	{

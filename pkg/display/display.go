@@ -63,13 +63,7 @@ func newTabWritter(output io.Writer) *tabwriter.Writer {
 }
 
 func displayablePrinter(d Displayable, w io.Writer, f []string) {
-	var cols []string
-	{
-		cols = d.Cols()
-		if len(f) > 0 && d.Filterable() {
-			cols = f
-		}
-	}
+	cols := getCols(d, f)
 
 	if !d.NoHeaders() {
 		fmt.Fprintln(w, strings.Join(cols, "\t"))
@@ -101,6 +95,18 @@ func displayablePrinter(d Displayable, w io.Writer, f []string) {
 
 		fmt.Fprintf(w, format+"\n", values...)
 	}
+}
+
+func getCols(d Displayable, f []string) []string {
+	var cols []string
+	{
+		cols = d.Cols()
+		if len(f) > 0 && d.Filterable() {
+			cols = f
+		}
+	}
+
+	return cols
 }
 
 // DefaultDisplayer constructs a column based output

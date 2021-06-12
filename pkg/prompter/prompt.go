@@ -11,6 +11,7 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+// TagName contains the golang tag identifier
 const TagName = "prompter"
 
 // String creates a simple prompter that returns the value
@@ -105,17 +106,9 @@ func checkAndSetValue(v reflect.Value, f reflect.StructField) error {
 
 	p := createPrompt(f.Name, v.Kind(), v.String())
 
-	r, err := p.Run()
+	r, err := runCheckAndNormalizePrompt(&p)
 	if err != nil {
-		if !p.IsConfirm {
-			return err
-		}
-	}
-
-	if r == "y" && err == nil {
-		r = "true"
-	} else if r == "n" {
-		r = "false"
+		return err
 	}
 
 	switch v.Kind() {
@@ -144,6 +137,7 @@ func createPrompt(name string, k reflect.Kind, def string) promptui.Prompt {
 	p := promptui.Prompt{
 		Label:       fmt.Sprintf("Define a value for %s", space(name)),
 		HideEntered: false,
+		Default:     def,
 	}
 
 	if k == reflect.Bool {
@@ -170,4 +164,21 @@ func space(s string) string {
 	}
 
 	return strings.ToLower(strings.Join(a, " "))
+}
+
+func runCheckAndNormalizePrompt(p *promptui.Prompt) (string, error) {
+	r, err := p.Run()
+	if err != nil {
+		if !p.IsConfirm {
+			return "", err
+		}
+	}
+
+	if r == "y" && err == nil {
+		r = "true"
+	} else if r == "n" {
+		r = "false"
+	}
+
+	return r, err
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/avocatl/admiral/pkg/prompter"
 )
 
+// User is a prompt aware struct
 type User struct {
 	FirstName          string
 	LastName           string

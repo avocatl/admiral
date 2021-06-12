@@ -58,11 +58,11 @@ func (jd *jsonDisplayer) Filterable() bool {
 	return false
 }
 
-// Json retrieves a json displayable struct.
+// JSON retrieves a json displayable struct.
 //
 // To display prettified JSON pass true as second parameter.
 // Under the hood is uses the default json marshaler.
-func Json(d interface{}, pretty bool) Displayable {
+func JSON(d interface{}, pretty bool) Displayable {
 	return &jsonDisplayer{
 		Data:   d,
 		Pretty: pretty,
