@@ -11,6 +11,7 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+// TagName contains the golang tag identifier
 const TagName = "prompter"
 
 // String creates a simple prompter that returns the value
