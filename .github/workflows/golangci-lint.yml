@@ -6,39 +6,38 @@ on:
   pull_request:
 jobs:
   golangci:
-    strategy:
-      matrix:
-        go-version: [1.18.X]
     name: Linter
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
       - uses: actions/checkout@v3
-        name: golangci-lint
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: format inspection
         with:
           args: --new=true --sort-results --skip-dirs-use-default --tests=false --presets=format
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: bugs inspection
         with:
           args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=bugs,complexity,format,performance,style,unused
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: complexity inspection
         with:
           args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=complexity,format,performance,style,unused
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: performance inspection
         with:
           args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=performance
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: style inspection
         with:
           args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=style
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: unused inspection
         with:
           args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=unused
-      - uses: golangci/golangci-lint-action@v2
+      - uses: golangci/golangci-lint-action@v3
         name: comments inspection
         with:
           args: --issues-exit-code=0 --new=true --sort-results --skip-dirs-use-default --tests=false --presets=comment
