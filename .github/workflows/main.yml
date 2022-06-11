@@ -1,5 +1,6 @@
 name: Golang testing
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - "docs/**"
@@ -12,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [1.17.x]
+        go: [1.17.x, 1.18.x]
     name: Go ${{ matrix.go }} check
     steps:
       - uses: actions/checkout@v2
