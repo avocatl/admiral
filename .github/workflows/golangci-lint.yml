@@ -16,5 +16,4 @@ jobs:
       - uses: golangci/golangci-lint-action@v3
         with:
           working-directory: pkg
-          only-new-issues: true
           args: --issues-exit-code=1 --tests=false
